@@ -49,29 +49,52 @@ class Parser
         $newTaskItem = new TaskItem();
         $splitInput = explode(" ", $input);
 
+        $completionData = $this->parseCompletionStatus($splitInput);
+        if($completionData !== false) {
+            $newTaskItem->setStatus($completionData['status']);
+            $newTaskItem->setCompletionDate($completionData['date']);
+        }
         $newTaskItem->setPriority($this->parsePriority($splitInput));
+        $newTaskItem->setCreationDate($this->parseCreationDate($splitInput));
         $newTaskItem->setContexts($this->parseContexts($splitInput));
         $newTaskItem->setProjects($this->parseProjects($splitInput));
-        $newTaskItem->setStatus($this->parseStatus($splitInput));
-        $newTaskItem->setCreationDate($this->parseCreationDate($splitInput));
-        $newTaskItem->setCompletionDate($this->parseCompletionDate($input));
-        $newTaskItem->setTask($this->parseTaskDescription($input));
+        $newTaskItem->setTask($this->parseTaskDescription($splitInput));
 
         return $newTaskItem;
     }
 
     /**
+     * Attempt to parse the completion status and date from the input.
+     *
+     * @param array &$splitInput An exploded array (delimited by space) of the input data.
+     * @see Gravitask\TaskItem::STATUS_ACTIVE
+     * @see Gravitask\TaskItem::STATUS_COMPLETED
+     * @return array|bool Array containing `date`, `status` values or false on failure.
+     */
+    private function parseCompletionStatus(&$splitInput) {
+        if($splitInput[0] !== 'x') { return false; }
+
+        if(preg_match('/^[0-9]{4,}\-[0-9]{2,}\-[0-9]{2,}$/', $splitInput[1]) === 1) {
+            $returnData['status'] = TaskItem::STATUS_COMPLETED;
+            $returnData['date'] = $splitInput[1];
+            $splitInput = array_slice($splitInput, 2);
+            return $returnData;
+        }
+
+        return false;
+    }
+
+    /**
      * Attempt to parse the priority of the input data.
      *
-     * @param array $splitInput An exploded array (delimited by space) of the input data.
+     * @param array &$splitInput An exploded array (delimited by space) of the input data.
      * @return string|null
      */
-    private function parsePriority($splitInput) {
-        foreach($splitInput as $index => $value) {
-            if(preg_match('/^\([A-Z]\)$/', $value) === 1) {
-                $this->addIndex("PRIORITY", $index);
-                return substr($value, 1, 1);
-            }
+    private function parsePriority(&$splitInput) {
+        if(preg_match('/^\([A-Z]\)$/', $splitInput[0]) === 1) {
+            $priority = substr($splitInput[0], 1, 1);
+            $splitInput = array_slice($splitInput, 1);
+            return $priority;
         }
 
         return null;
@@ -116,17 +139,14 @@ class Parser
     /**
      * Attempt to parse the **optional** creation date in the input.
      *
-     * @param array $splitInput An exploded array (delimited by space) of the input data.
+     * @param array &$splitInput An exploded array (delimited by space) of the input data.
      * @return string|null
      */
-    private function parseCreationDate($splitInput) {
-        for($i = 0; $i < count($splitInput); $i++) {
-            if(preg_match('/^[0-9]{4,}\-[0-9]{2,}\-[0-9]{2,}$/', $splitInput[$i]) === 1) {
-                // If the previous element is an "x" then the next date item is the completion date
-                if($i > 0 && $splitInput[$i - 1] === "x") { continue; }
-                $this->addIndex("CREATION", $i);
-                return $splitInput[$i];
-            }
+    private function parseCreationDate(&$splitInput) {
+        if(preg_match('/^[0-9]{4,}\-[0-9]{2,}\-[0-9]{2,}$/', $splitInput[0]) === 1) {
+            $creationDate = $splitInput[0];
+            $splitInput = array_slice($splitInput, 1);
+            return $creationDate;
         }
 
         return null;
@@ -149,56 +169,12 @@ class Parser
     }
 
     /**
-     * Attempt to parse the completion date from the input string.
+     * Attempt to parse a readable task description from the input.
      *
-     * @param string $input The raw input string in todo.txt format.
-     * @return string|null
-     */
-    private function parseCompletionDate($input) {
-        $splitInput = explode(" ", $input);
-
-        // Task is not completed, thus it will not have a completion date
-       if($this->parseStatus($input) !== TaskItem::STATUS_COMPLETED) { return null; }
-
-        for($i = 0; $i < 4; $i++) {
-            if(preg_match('/^[0-9]{4,}\-[0-9]{2,}\-[0-9]{2,}$/', $splitInput[$i]) === 1) {
-                $this->addIndex("COMPLETION", $i);
-                return $splitInput[$i];
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Attempt to parse a readable task description from the raw input.
-     *
-     * @param string $input The raw input string in todo.txt format.
+     * @param array $splitInput An exploded array (delimited by space) of the input data.
      * @return string
      */
-    private function parseTaskDescription($input) {
-        $splitInput = explode(" ", $input);
-
-        if($this->getIndex("CREATION") !== null) {
-            $elements = array_slice($splitInput, $this->getIndex("CREATION") + 1);
-            return implode(" ", $elements);
-        }
-
-        if($this->getIndex("PRIORITY") !== null) {
-            $elements = array_slice($splitInput, $this->getIndex("PRIORITY") + 1);
-            return implode(" ", $elements);
-        }
-
-        if($this->getIndex("COMPLETION") !== null) {
-            $elements = array_slice($splitInput, $this->getIndex("COMPLETION") + 1);
-            return implode(" ", $elements);
-        }
-
-        if($this->parseStatus($input) === TaskItem::STATUS_COMPLETED) {
-            $elements = array_slice($splitInput, 1);
-            return implode(" ", $elements);
-        }
-
-        return $input;
+    private function parseTaskDescription($splitInput) {
+       return implode(" ", $splitInput);
     }
 }

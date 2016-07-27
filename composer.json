@@ -1,0 +1,21 @@
+{
+  "name": "gravitask/todo-txt-parser",
+  "description": "Parse todo.txt formatted data into usable PHP data.",
+  "keywords": ["parse", "todo", "todo.txt", "todotxt"],
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Dan Bartram",
+      "email": "me@danielbartram.com"
+    }
+  ],
+  "require": {
+    "php": ">5.5.9"
+  },
+  "autoload": {
+    "psr-4": {
+      "Gravitask\\": "src/Gravitask/"
+    }
+  }
+}

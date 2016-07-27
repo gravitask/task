@@ -7,38 +7,6 @@ use Gravitask\TaskItem;
 
 class Parser
 {
-    /** @var array A list of input indexes to identify certain data elements, e.g. priority. */
-    private $indexes = array();
-
-
-    /**
-     * Add an index for later use.
-     *
-     * This is used to store the offset locations for certain data elements
-     * in the split input array.
-     * This allows us to perform tasks such as removing all text before the
-     * priority value in order to retrieve a readable task description.
-     *
-     * @param string $key The name of the index, e.g. "STATUS".
-     * @param int $value The array offset of the split input.
-     */
-    private function addIndex($key, $value) {
-        $this->indexes[$key] = $value;
-    }
-
-    /**
-     * Retrieve an offset value for the provided index name.
-     *
-     * @param string $key The name of the index.
-     * @return int|null The splitInput offset value.
-     */
-    private function getIndex($key) {
-        if(isset($this->indexes[$key])) {
-            return $this->indexes[$key];
-        }
-        return null;
-    }
-
     /**
      * Parse the provided input and translate into a TaskItem object.
      *
@@ -150,22 +118,6 @@ class Parser
         }
 
         return null;
-    }
-
-    /**
-     * Parse the task's current status.
-     *
-     * @param array $splitInput An exploded array (delimited by space) of the input data.
-     * @see Gravitask\TaskItem::STATUS_ACTIVE
-     * @see Gravitask\TaskItem::STATUS_COMPLETED
-     * @return int ENUM representation of the task's status.
-     */
-    private function parseStatus($splitInput) {
-        if($splitInput[0] === "x") {
-            return TaskItem::STATUS_COMPLETED;
-        }
-
-        return TaskItem::STATUS_ACTIVE;
     }
 
     /**

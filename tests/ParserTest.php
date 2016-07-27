@@ -93,6 +93,14 @@ class ParserTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("2016-01-02", $result->getCompletionDate());
         $this->assertEquals(\Gravitask\TaskItem::STATUS_COMPLETED, $result->getStatus());
     }
+    function testStatusWithoutCompletionDate() {
+        $input = "x Non-completed task";
+
+        $result = $this->parser->parse($input);
+
+        $this->assertEquals(null, $result->getCompletionDate());
+        $this->assertEquals(\Gravitask\TaskItem::STATUS_ACTIVE, $result->getStatus());
+    }
 
     function testStatusBasic() {
         $input = "x 2011-11-12 Dance";

@@ -17,10 +17,10 @@ class TaskItem
     private $task;
 
     /** @var array An array of the item's contexts. */
-    private $contexts;
+    private $contexts = [];
 
     /** @var array An array of the item's projects. */
-    private $projects;
+    private $projects = [];
 
     /** @var string The creation date of the task (YYYY-MM-DD). */
     private $creationDate;

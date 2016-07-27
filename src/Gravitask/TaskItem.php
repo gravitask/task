@@ -193,6 +193,9 @@ class TaskItem
      * @return int
      */
     public function getStatus() {
+        if($this->status === null) {
+            return self::STATUS_ACTIVE;
+        }
         return $this->status;
     }
 

@@ -179,10 +179,10 @@ class ParserTest extends PHPUnit_Framework_TestCase
 
     function testComplexParseFour() {
         $input = "x Test task @email @home +secretProject";
-        $taskDesc = "Test task @email @home +secretProject";
+        $taskDesc = "x Test task @email @home +secretProject";
         $contexts = array("email", "home");
         $projects = array("secretProject");
-        $status = \Gravitask\TaskItem::STATUS_COMPLETED;
+        $status = \Gravitask\TaskItem::STATUS_ACTIVE;
 
         $result = $this->parser->parse($input);
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Gravitask;
+namespace Gravitask\Task;
 
 
 class TaskItem

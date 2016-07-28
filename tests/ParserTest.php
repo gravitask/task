@@ -4,11 +4,11 @@ require __DIR__ .'/../vendor/autoload.php';
 
 class ParserTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Gravitask\Tools\Parser */
+    /** @var Gravitask\Task\Parser\Parser */
     private $parser;
 
     function setUp() {
-        $this->parser = new \Gravitask\Tools\Parser();
+        $this->parser = new \Gravitask\Task\Parser\Parser();
     }
 
     function testBasicTask() {
@@ -91,7 +91,7 @@ class ParserTest extends PHPUnit_Framework_TestCase
         $result = $this->parser->parse($input);
 
         $this->assertEquals("2016-01-02", $result->getCompletionDate());
-        $this->assertEquals(\Gravitask\TaskItem::STATUS_COMPLETED, $result->getStatus());
+        $this->assertEquals(\Gravitask\Task\TaskItem::STATUS_COMPLETED, $result->getStatus());
     }
     function testStatusWithoutCompletionDate() {
         $input = "x Non-completed task";
@@ -99,7 +99,7 @@ class ParserTest extends PHPUnit_Framework_TestCase
         $result = $this->parser->parse($input);
 
         $this->assertEquals(null, $result->getCompletionDate());
-        $this->assertEquals(\Gravitask\TaskItem::STATUS_ACTIVE, $result->getStatus());
+        $this->assertEquals(\Gravitask\Task\TaskItem::STATUS_ACTIVE, $result->getStatus());
     }
 
     function testStatusBasic() {
@@ -108,7 +108,7 @@ class ParserTest extends PHPUnit_Framework_TestCase
         $result = $this->parser->parse($input);
 
         $this->assertEquals("2011-11-12", $result->getCompletionDate());
-        $this->assertEquals(\Gravitask\TaskItem::STATUS_COMPLETED, $result->getStatus());
+        $this->assertEquals(\Gravitask\Task\TaskItem::STATUS_COMPLETED, $result->getStatus());
     }
 
     function testTaskDescription() {
@@ -146,7 +146,7 @@ class ParserTest extends PHPUnit_Framework_TestCase
         $projects = array("secretProject");
         $creationDate = "2016-02-05";
         $completionDate = "2016-02-10";
-        $status = \Gravitask\TaskItem::STATUS_COMPLETED;
+        $status = \Gravitask\Task\TaskItem::STATUS_COMPLETED;
 
         $result = $this->parser->parse($input);
 
@@ -165,7 +165,7 @@ class ParserTest extends PHPUnit_Framework_TestCase
         $contexts = array("email", "home");
         $projects = array("secretProject");
         $completionDate = "2016-02-05";
-        $status = \Gravitask\TaskItem::STATUS_COMPLETED;
+        $status = \Gravitask\Task\TaskItem::STATUS_COMPLETED;
 
         $result = $this->parser->parse($input);
 
@@ -182,7 +182,7 @@ class ParserTest extends PHPUnit_Framework_TestCase
         $taskDesc = "x Test task @email @home +secretProject";
         $contexts = array("email", "home");
         $projects = array("secretProject");
-        $status = \Gravitask\TaskItem::STATUS_ACTIVE;
+        $status = \Gravitask\Task\TaskItem::STATUS_ACTIVE;
 
         $result = $this->parser->parse($input);
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace Gravitask\Formatter;
+namespace Gravitask\Task\Formatter;
 
-use Gravitask\TaskItem;
+use Gravitask\Task\TaskItem;
 
 class TodoTxtFormatter implements FormatterInterface
 {

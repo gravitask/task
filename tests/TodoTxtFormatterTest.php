@@ -5,8 +5,8 @@ require __DIR__ .'/../vendor/autoload.php';
 class TodoTxtFormatterTest extends PHPUnit_Framework_TestCase
 {
     public function testBasicTaskFormat() {
-        $formatter = new Gravitask\Formatter\TodoTxtFormatter();
-        $task = new \Gravitask\TaskItem();
+        $formatter = new Gravitask\Task\Formatter\TodoTxtFormatter();
+        $task = new \Gravitask\Task\TaskItem();
         $task->setTask("Basic Task!");
 
         $expectedResult = "Basic Task!";
@@ -17,8 +17,8 @@ class TodoTxtFormatterTest extends PHPUnit_Framework_TestCase
     }
 
     public function testFormatComplex() {
-        $formatter = new Gravitask\Formatter\TodoTxtFormatter();
-        $task = new \Gravitask\TaskItem();
+        $formatter = new Gravitask\Task\Formatter\TodoTxtFormatter();
+        $task = new \Gravitask\Task\TaskItem();
         $task->setTask("Basic Task");
         $task->setCreationDate("2016-01-02");
         $task->setContexts(["email", "computer"]);
@@ -33,9 +33,9 @@ class TodoTxtFormatterTest extends PHPUnit_Framework_TestCase
     }
 
     public function testFormatCompletedWithNoCompletionDate() {
-        $formatter = new Gravitask\Formatter\TodoTxtFormatter();
-        $task = new \Gravitask\TaskItem();
-        $task->setStatus(Gravitask\TaskItem::STATUS_COMPLETED);
+        $formatter = new Gravitask\Task\Formatter\TodoTxtFormatter();
+        $task = new \Gravitask\Task\TaskItem();
+        $task->setStatus(Gravitask\Task\TaskItem::STATUS_COMPLETED);
         $task->setTask("Some Task");
         $task->setCreationDate("2016-02-04");
         $task->setContexts(["email"]);
@@ -49,8 +49,8 @@ class TodoTxtFormatterTest extends PHPUnit_Framework_TestCase
     }
 
     public function testFormatWithTwoDates() {
-        $formatter = new Gravitask\Formatter\TodoTxtFormatter();
-        $task = new \Gravitask\TaskItem();
+        $formatter = new Gravitask\Task\Formatter\TodoTxtFormatter();
+        $task = new \Gravitask\Task\TaskItem();
         $task->setTask("Some Task");
         $task->setCreationDate("2016-02-04");
         $task->setCompletionDate("2016-02-04");
@@ -65,9 +65,9 @@ class TodoTxtFormatterTest extends PHPUnit_Framework_TestCase
     }
 
     public function testFormatForCompletedTask() {
-        $formatter = new Gravitask\Formatter\TodoTxtFormatter();
-        $task = new \Gravitask\TaskItem();
-        $task->setStatus(Gravitask\TaskItem::STATUS_COMPLETED);
+        $formatter = new Gravitask\Task\Formatter\TodoTxtFormatter();
+        $task = new \Gravitask\Task\TaskItem();
+        $task->setStatus(Gravitask\Task\TaskItem::STATUS_COMPLETED);
         $task->setTask("Finished Task");
         $task->setCreationDate("2016-11-11");
         $task->setCompletionDate("2016-11-12");
@@ -82,8 +82,8 @@ class TodoTxtFormatterTest extends PHPUnit_Framework_TestCase
     }
 
     public function testFormatPreventDuplicateContexts() {
-        $formatter = new Gravitask\Formatter\TodoTxtFormatter();
-        $task = new \Gravitask\TaskItem();
+        $formatter = new Gravitask\Task\Formatter\TodoTxtFormatter();
+        $task = new \Gravitask\Task\TaskItem();
         $task->setTask("Simple @email Task");
         $task->setContexts(["email"]);
 
@@ -95,8 +95,8 @@ class TodoTxtFormatterTest extends PHPUnit_Framework_TestCase
     }
 
     public function testFormatPreventDuplicateProjects() {
-        $formatter = new Gravitask\Formatter\TodoTxtFormatter();
-        $task = new \Gravitask\TaskItem();
+        $formatter = new Gravitask\Task\Formatter\TodoTxtFormatter();
+        $task = new \Gravitask\Task\TaskItem();
         $task->setTask("Simple Task to finish +projectone soon");
         $task->setProjects(["projectone"]);
 

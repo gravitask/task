@@ -1,9 +1,9 @@
 <?php
 
-namespace Gravitask\Tools;
+namespace Gravitask\Task\Parser;
 
 
-use Gravitask\TaskItem;
+use Gravitask\Task\TaskItem;
 
 class Parser
 {
@@ -11,7 +11,7 @@ class Parser
      * Parse the provided input and translate into a TaskItem object.
      *
      * @param string $input A raw Todo.txt formatted string.
-     * @return \Gravitask\TaskItem
+     * @return \Gravitask\Task\TaskItem
      */
     public function parse($input) {
         $newTaskItem = new TaskItem();

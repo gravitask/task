@@ -8,7 +8,7 @@ class ParserTest extends PHPUnit_Framework_TestCase
     private $parser;
 
     function setUp() {
-        $this->parser = new \Gravitask\Task\Parser\Parser();
+        $this->parser = new \Gravitask\Task\Parser\TodoTxtParser();
     }
 
     function testBasicTask() {

@@ -5,7 +5,7 @@ namespace Gravitask\Task\Parser;
 
 use Gravitask\Task\TaskItem;
 
-class Parser
+class TodoTxtParser implements ParserInterface
 {
     /**
      * Parse the provided input and translate into a TaskItem object.

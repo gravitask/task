@@ -1,6 +1,6 @@
 {
-  "name": "gravitask/todo-txt-parser",
-  "description": "Parse todo.txt formatted data into usable PHP data.",
+  "name": "gravitask/task",
+  "description": "The task logic, parsing, and formatting functionality of Gravitask.",
   "keywords": ["parse", "todo", "todo.txt", "todotxt"],
   "type": "library",
   "license": "MIT",

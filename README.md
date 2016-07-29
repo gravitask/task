@@ -1,10 +1,11 @@
-# TodoTxt Parser
-A powerful PHP library for parsing and working with the
+# gravitask/task
+A *serious*ly powerful library for working with TODO list items and tasks.
+
+## Features
+* Parse and format `TaskItem` objects to and from JSON, and
 [todo.txt format](https://github.com/ginatrapani/todo.txt-cli/wiki/The-Todo.txt-Format).
 
----
-
-## Parser
+## Example
 ```
 $parser = new Gravitask\Task\Parser\TodoTxtParser();
 
@@ -15,28 +16,32 @@ $task->getPriority(); // Result: "A"
 $task->getTask(); // Result: "Write the README file"
 ```
 
-### Methods
+---
+
+## Parsers
+### Required Methods
+> All parsers **MUST** implement the `Gravitask\Task\Parser\ParserInterface`.
+
 #### parse($input)
-Parse the provided `todo.txt` formatted `$input` and return a `Gravitask\Task\TaskItem` object.
+Parse the provided `$input` variable and return a `Gravitask\Task\TaskItem` object,
+or `FALSE` on failure to parse.
 
 ##### Example
 ```
-$input = "(C) 2016-05-20 Go for a walk";
+$parser = new Gravitask\Task\Parser\TodoTxtParser();
 
+$input = "(A) Write the README file";
 $task = $parser->parse($input);
+
+$task->getPriority(); // Result: "A"
+$task->getTask(); // Result: "Write the README file"
 ```
 
 ---
 
 ## TaskItem
-```
-$todo = "(B) Improve README file @github";
-$task = $parser->parse($todo);
-
-$task->getPriority()  // "B"
-$task->getTask();     // "Improve README file @github"
-$task->getContexts(); // ['github']
-```
+This class is the "task object" and holds all of the information about the task,
+such as its creation date, priority, description, etc.
 
 ### Constants
 | Name               | Definition |
@@ -248,8 +253,10 @@ $task->getStatus();
 
 ---
 
-## Formatter
-### Methods
+## Formatters
+### Required Methods
+> All formatters **MUST** implement the `Gravitask\Task\Formatter\FormatterInterface`.
+
 #### format(TaskItem $taskItem)
 Format the provided `TaskItem` using the preferred formatter class, e.g. `TodoTxtFormatter`.
 

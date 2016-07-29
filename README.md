@@ -1,42 +1,26 @@
-# TodoTxt Parser
-A powerful PHP library for parsing and working with the
+# gravitask/task
+A *serious*ly powerful library for working with TODO list items and tasks.
+
+## Features
+* Parse and format `TaskItem` objects to and from JSON, and
 [todo.txt format](https://github.com/ginatrapani/todo.txt-cli/wiki/The-Todo.txt-Format).
 
----
+## Example
+```php
+$parser = new Gravitask\Task\Parser\TodoTxtParser();
 
-## Parser
-```
 $input = "(A) Write the README file";
-
-$parser = new Gravitask\Tools\Parser();
 $task = $parser->parse($input);
 
 $task->getPriority(); // Result: "A"
 $task->getTask(); // Result: "Write the README file"
 ```
 
-### Methods
-#### parse($input)
-Parse the provided `todo.txt` formatted `$input` and return a `Gravitask\TaskItem` object.
-
-##### Example
-```
-$input = "(C) 2016-05-20 Go for a walk";
-
-$task = $parser->parse($input);
-```
-
 ---
 
 ## TaskItem
-```
-$todo = "(B) Improve README file @github";
-$task = $parser->parse($todo);
-
-$task->getPriority()  // "B"
-$task->getTask();     // "Improve README file @github"
-$task->getContexts(); // ['github']
-```
+This class is the "task object" and holds all of the information about the task,
+such as its creation date, priority, description, etc.
 
 ### Constants
 | Name               | Definition |
@@ -49,7 +33,7 @@ $task->getContexts(); // ['github']
 Set the name/description of the task to be completed.
 
 ##### Example
-```
+```php
 $taskItem->setTask("Make another coffee");
 ```
 
@@ -59,7 +43,7 @@ $taskItem->setTask("Make another coffee");
 Retrieve the name/description of the task.
 
 ##### Example
-```
+```php
 $task->getTask();
 // "Make another coffee"
 ```
@@ -70,7 +54,7 @@ $task->getTask();
 Set the task's contexts to the items provided in the `$contexts` array.
 
 ##### Example
-```
+```php
 $contexts = ['email', 'computer'];
 $task->setContexts($contexts);
 ```
@@ -81,7 +65,7 @@ $task->setContexts($contexts);
 Append a single context item to the pre-existing array of contexts.
 
 ##### Example
-```
+```php
 $contexts = ['email'];
 $task->setContexts($contexts);
 
@@ -94,7 +78,7 @@ $task->addContext('computer');
 Retrieve an array of the task's contexts.
 
 ##### Example
-```
+```php
 $contexts = ['email', 'computer'];
 $task->setContexts($contexts);
 
@@ -108,7 +92,7 @@ $task->getContexts();
 Set the task's projects to the items provided in the `$projects` array.
 
 ##### Example
-```
+```php
 $projects = ['SecretProject'];
 $task->setProjects($projects);
 ```
@@ -119,7 +103,7 @@ $task->setProjects($projects);
 Append a single project item to the pre-existing array of projects.
 
 ##### Example
-```
+```php
 $projects = ['SecretProject'];
 $task->setProjects($projects);
 
@@ -132,7 +116,7 @@ $task->addProject('Work');
 Retrieve an array of the task's projects.
 
 ##### Example
-```
+```php
 $projects = ['SecretProject'];
 
 $task->setProjects($projects);
@@ -150,7 +134,7 @@ Set the task's *optional* creation date.
 The date **MUST** be formatted as `YYYY-MM-DD`.
 
 ##### Example
-```
+```php
 $task->setCreationDate('2016-06-21');
 ```
 
@@ -160,7 +144,7 @@ $task->setCreationDate('2016-06-21');
 Retrieve the *optional* creation date value for the task.
 
 ##### Example
-```
+```php
 $task->getCreationDate();
 // "2016-06-21"
 ```
@@ -174,7 +158,7 @@ Set the date of when the task was completed.
 * The date **MUST** be formatted as `YYYY-MM-DD`.
 * The status **MUST** also be set to `STATUS_COMPLETED` via the `setStatus` method.
 
-```
+```php
 $task->setStatus(TaskItem::STATUS_COMPLETED);
 $task->setCompletionDate('2016-06-22');
 ```
@@ -185,7 +169,7 @@ $task->setCompletionDate('2016-06-22');
 Retrieve the date that the task was completed.
 
 ##### Example
-```
+```php
 $task->setStatus(TaskItem::STATUS_COMPLETED);
 $task->setCompletionDate('2016-06-22');
 
@@ -200,7 +184,7 @@ Set the task's priority to the provided uppercase single letter of the alphabet.
 signifies the highest priority, whilst `Z` represents the lowest.
 
 ##### Example
-```
+```php
 $task->setPriority("B");
 ```
 
@@ -211,7 +195,7 @@ Retrieve the task's priority value represented by a single, uppercase letter of 
 alphabet.
 
 ##### Example
-```
+```php
 $task->setPriority("F");
 
 $task->getPriority();
@@ -228,7 +212,7 @@ Set the status of the task to a different value.
   `STATUS_`.
 
 ##### Example
-```
+```php
 $task->setStatus(TaskItem::STATUS_COMPLETED);
 ```
 
@@ -239,7 +223,7 @@ Retrieve the current status of the task. By default this value will be
 `TaskItem::STATUS_ACTIVE`.
 
 ##### Example
-```
+```php
 $task->setStatus(TaskItem::STATUS_COMPLETED);
 
 $task->getStatus();
@@ -248,18 +232,41 @@ $task->getStatus();
 
 ---
 
-## Formatter
-### Methods
+## Formatters
+### Required Methods
+> All formatters **MUST** implement the `Gravitask\Task\Formatter\FormatterInterface`.
+
 #### format(TaskItem $taskItem)
 Format the provided `TaskItem` using the preferred formatter class, e.g. `TodoTxtFormatter`.
 
 ##### Example
-```
+```php
 $task->setPriority("A");
 $task->setTask("Write example code");
 
-$formatter = new Gravitask\Formatter\TodoTxtFormatter();
+$formatter = new Gravitask\Task\Formatter\TodoTxtFormatter();
 
 $output = $formatter->format($task);
 // "(A) Write example code"
+```
+
+---
+
+## Parsers
+### Required Methods
+> All parsers **MUST** implement the `Gravitask\Task\Parser\ParserInterface`.
+
+#### parse($input)
+Parse the provided `$input` variable and return a `Gravitask\Task\TaskItem` object,
+or `FALSE` on failure to parse.
+
+##### Example
+```php
+$parser = new Gravitask\Task\Parser\TodoTxtParser();
+
+$input = "(A) Write the README file";
+$task = $parser->parse($input);
+
+$task->getPriority(); // Result: "A"
+$task->getTask(); // Result: "Write the README file"
 ```

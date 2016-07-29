@@ -18,27 +18,6 @@ $task->getTask(); // Result: "Write the README file"
 
 ---
 
-## Parsers
-### Required Methods
-> All parsers **MUST** implement the `Gravitask\Task\Parser\ParserInterface`.
-
-#### parse($input)
-Parse the provided `$input` variable and return a `Gravitask\Task\TaskItem` object,
-or `FALSE` on failure to parse.
-
-##### Example
-```
-$parser = new Gravitask\Task\Parser\TodoTxtParser();
-
-$input = "(A) Write the README file";
-$task = $parser->parse($input);
-
-$task->getPriority(); // Result: "A"
-$task->getTask(); // Result: "Write the README file"
-```
-
----
-
 ## TaskItem
 This class is the "task object" and holds all of the information about the task,
 such as its creation date, priority, description, etc.
@@ -269,4 +248,25 @@ $formatter = new Gravitask\Task\Formatter\TodoTxtFormatter();
 
 $output = $formatter->format($task);
 // "(A) Write example code"
+```
+
+---
+
+## Parsers
+### Required Methods
+> All parsers **MUST** implement the `Gravitask\Task\Parser\ParserInterface`.
+
+#### parse($input)
+Parse the provided `$input` variable and return a `Gravitask\Task\TaskItem` object,
+or `FALSE` on failure to parse.
+
+##### Example
+```
+$parser = new Gravitask\Task\Parser\TodoTxtParser();
+
+$input = "(A) Write the README file";
+$task = $parser->parse($input);
+
+$task->getPriority(); // Result: "A"
+$task->getTask(); // Result: "Write the README file"
 ```

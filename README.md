@@ -6,9 +6,9 @@ A powerful PHP library for parsing and working with the
 
 ## Parser
 ```
-$input = "(A) Write the README file";
+$parser = new Gravitask\Task\Parser\TodoTxtParser();
 
-$parser = new Gravitask\Tools\Parser();
+$input = "(A) Write the README file";
 $task = $parser->parse($input);
 
 $task->getPriority(); // Result: "A"
@@ -17,7 +17,7 @@ $task->getTask(); // Result: "Write the README file"
 
 ### Methods
 #### parse($input)
-Parse the provided `todo.txt` formatted `$input` and return a `Gravitask\TaskItem` object.
+Parse the provided `todo.txt` formatted `$input` and return a `Gravitask\Task\TaskItem` object.
 
 ##### Example
 ```
@@ -258,7 +258,7 @@ Format the provided `TaskItem` using the preferred formatter class, e.g. `TodoTx
 $task->setPriority("A");
 $task->setTask("Write example code");
 
-$formatter = new Gravitask\Formatter\TodoTxtFormatter();
+$formatter = new Gravitask\Task\Formatter\TodoTxtFormatter();
 
 $output = $formatter->format($task);
 // "(A) Write example code"

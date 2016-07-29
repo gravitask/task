@@ -6,6 +6,12 @@ use Gravitask\Task\TaskItem;
 
 class JsonParser implements ParserInterface
 {
+    /**
+     * Parse the provided JSON input string into a TaskItem object.
+     *
+     * @param $input
+     * @return TaskItem|bool A new TaskItem object, or false on parse failure/error.
+     */
     public function parse($input)
     {
         $json = json_decode($input, true);
@@ -27,6 +33,13 @@ class JsonParser implements ParserInterface
         return $taskItem;
     }
 
+    /**
+     * Parse whether the task is marked as completed.
+     *
+     * @param array $json Array representation of the input JSON string.
+     * @see TaskItem::STATUS_COMPLETED
+     * @return int|null ENUM of status of TaskItem.
+     */
     private function parseCompleted($json) {
         if(!isset($json['completed'])) { return null; }
 
@@ -37,6 +50,12 @@ class JsonParser implements ParserInterface
         return null;
     }
 
+    /**
+     * Parse the date that the task was completed (if available).
+     *
+     * @param array $json Array representation of the input JSON string.
+     * @return string|null YYYY-MM-DD formatted date, or null.
+     */
     private function parseCompletionDate($json) {
         if(!isset($json['dateCompleted'])) { return null; }
 
@@ -47,6 +66,12 @@ class JsonParser implements ParserInterface
         return null;
     }
 
+    /**
+     * Parse the task's priority.
+     *
+     * @param array $json Array representation of the input JSON string.
+     * @return string|null
+     */
     private function parsePriority($json) {
         if(!isset($json['priority'])) { return null; }
 
@@ -57,6 +82,12 @@ class JsonParser implements ParserInterface
         return null;
     }
 
+    /**
+     * Parse the optional date value of when the task was created.
+     *
+     * @param array $json Array representation of the input JSON string.
+     * @return string|null YYYY-MM-DD formatted date, or null.
+     */
     private function parseCreationDate($json) {
         if(!isset($json['dateCreated'])) { return null; }
 
@@ -67,6 +98,12 @@ class JsonParser implements ParserInterface
         return null;
     }
 
+    /**
+     * Parse the task's name/description.
+     *
+     * @param array $json Array representation of the input JSON string.
+     * @return string|null
+     */
     private function parseTask($json) {
         if(!isset($json['task'])) { return null; }
 
@@ -77,6 +114,12 @@ class JsonParser implements ParserInterface
         return null;
     }
 
+    /**
+     * Parse the array of contexts provided in the input JSON.
+     *
+     * @param array $json Array representation of the input JSON string.
+     * @return array
+     */
     private function parseContexts($json) {
         if(!isset($json['contexts']) || !is_array($json['contexts'])) { return []; }
 
@@ -91,6 +134,12 @@ class JsonParser implements ParserInterface
         return $contexts;
     }
 
+    /**
+     * Parse the array of projects provided in the input JSON.
+     *
+     * @param array $json Array representation of the input JSON string.
+     * @return array
+     */
     private function parseProjects($json) {
         if(!isset($json['projects']) || !is_array($json['projects'])) { return []; }
 

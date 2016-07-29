@@ -6,14 +6,35 @@ use Gravitask\Task\TaskItem;
 
 class JsonFormatter implements FormatterInterface
 {
+    /** JSON key to identify whether the task has been completed. */
     const KEY_COMPLETED = "completed";
+
+    /** JSON key to store the date that the task was completed. */
     const KEY_COMPLETION_DATE = "dateCompleted";
+
+    /** JSON key to store the date that the task was created. */
     const KEY_CREATION_DATE = "dateCreated";
+
+    /** JSON key to store the task's priority. */
     const KEY_PRIORITY = "priority";
+
+    /** JSON key to store the task's name/description. */
     const KEY_TASK = "task";
+
+    /** JSON key to store an array of the task's contexts. */
     const KEY_CONTEXTS = "contexts";
+
+    /** JSON key to store an array of the task's projects. */
     const KEY_PROJECTS = "projects";
 
+
+
+    /**
+     * Format the TaskItem into a JSON encoded string.
+     *
+     * @param TaskItem $taskItem
+     * @return string
+     */
     public function format(TaskItem $taskItem)
     {
         $output = [];

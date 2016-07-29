@@ -3,6 +3,7 @@
 namespace Gravitask\Task\Parser;
 
 use Gravitask\Task\TaskItem;
+use Gravitask\Task\Formatter\JsonFormatter;
 
 class JsonParser implements ParserInterface
 {
@@ -41,9 +42,9 @@ class JsonParser implements ParserInterface
      * @return int|null ENUM of status of TaskItem.
      */
     private function parseCompleted($json) {
-        if(!isset($json['completed'])) { return null; }
+        if(!isset($json[JsonFormatter::KEY_COMPLETED])) { return null; }
 
-        if($json['completed'] === true) {
+        if($json[JsonFormatter::KEY_COMPLETED] === true) {
             return TaskItem::STATUS_COMPLETED;
         }
 
@@ -57,10 +58,10 @@ class JsonParser implements ParserInterface
      * @return string|null YYYY-MM-DD formatted date, or null.
      */
     private function parseCompletionDate($json) {
-        if(!isset($json['dateCompleted'])) { return null; }
+        if(!isset($json[JsonFormatter::KEY_COMPLETION_DATE])) { return null; }
 
-        if(preg_match('/^[0-9]{4,}\-[0-9]{2,}\-[0-9]{2,}$/', $json['dateCompleted'])) {
-            return $json['dateCompleted'];
+        if(preg_match('/^[0-9]{4,}\-[0-9]{2,}\-[0-9]{2,}$/', $json[JsonFormatter::KEY_COMPLETION_DATE])) {
+            return $json[JsonFormatter::KEY_COMPLETION_DATE];
         }
 
         return null;
@@ -73,10 +74,10 @@ class JsonParser implements ParserInterface
      * @return string|null
      */
     private function parsePriority($json) {
-        if(!isset($json['priority'])) { return null; }
+        if(!isset($json[JsonFormatter::KEY_PRIORITY])) { return null; }
 
-        if(preg_match('/^[A-Z]$/', $json['priority']) === 1) {
-            return $json['priority'];
+        if(preg_match('/^[A-Z]$/', $json[JsonFormatter::KEY_PRIORITY]) === 1) {
+            return $json[JsonFormatter::KEY_PRIORITY];
         }
 
         return null;
@@ -89,10 +90,10 @@ class JsonParser implements ParserInterface
      * @return string|null YYYY-MM-DD formatted date, or null.
      */
     private function parseCreationDate($json) {
-        if(!isset($json['dateCreated'])) { return null; }
+        if(!isset($json[JsonFormatter::KEY_CREATION_DATE])) { return null; }
 
-        if(preg_match('/^[0-9]{4,}\-[0-9]{2,}\-[0-9]{2,}$/', $json['dateCreated'])) {
-            return $json['dateCreated'];
+        if(preg_match('/^[0-9]{4,}\-[0-9]{2,}\-[0-9]{2,}$/', $json[JsonFormatter::KEY_CREATION_DATE])) {
+            return $json[JsonFormatter::KEY_CREATION_DATE];
         }
 
         return null;
@@ -105,10 +106,10 @@ class JsonParser implements ParserInterface
      * @return string|null
      */
     private function parseTask($json) {
-        if(!isset($json['task'])) { return null; }
+        if(!isset($json[JsonFormatter::KEY_TASK])) { return null; }
 
-        if(is_string($json['task'])) {
-            return $json['task'];
+        if(is_string($json[JsonFormatter::KEY_TASK])) {
+            return $json[JsonFormatter::KEY_TASK];
         }
 
         return null;
@@ -121,11 +122,11 @@ class JsonParser implements ParserInterface
      * @return array
      */
     private function parseContexts($json) {
-        if(!isset($json['contexts']) || !is_array($json['contexts'])) { return []; }
+        if(!isset($json[JsonFormatter::KEY_CONTEXTS]) || !is_array($json[JsonFormatter::KEY_CONTEXTS])) { return []; }
 
         $contexts = [];
 
-        foreach($json['contexts'] as $context) {
+        foreach($json[JsonFormatter::KEY_CONTEXTS] as $context) {
             if(is_string($context)) {
                 $contexts[] = $context;
             }
@@ -141,11 +142,11 @@ class JsonParser implements ParserInterface
      * @return array
      */
     private function parseProjects($json) {
-        if(!isset($json['projects']) || !is_array($json['projects'])) { return []; }
+        if(!isset($json[JsonFormatter::KEY_PROJECTS]) || !is_array($json[JsonFormatter::KEY_PROJECTS])) { return []; }
 
         $projects = [];
 
-        foreach($json['projects'] as $project) {
+        foreach($json[JsonFormatter::KEY_PROJECTS] as $project) {
             if(is_string($project)) {
                 $projects[] = $project;
             }

@@ -15,9 +15,10 @@ class TodoTxtParser implements ParserInterface
      * Parse the provided input and translate into a TaskItem object.
      *
      * @param string $input A raw Todo.txt formatted string.
+     * @param array $flags A list of parse flags.
      * @return \Gravitask\Task\TaskItem
      */
-    public function parse($input) {
+    public function parse($input, $flags = []) {
         $newTaskItem = new TaskItem();
         $splitInput = explode(" ", $input);
 

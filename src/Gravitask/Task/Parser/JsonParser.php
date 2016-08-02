@@ -11,9 +11,10 @@ class JsonParser implements ParserInterface
      * Parse the provided JSON input string into a TaskItem object.
      *
      * @param $input
+     * @param array $flags A list of parse flags.
      * @return TaskItem|bool A new TaskItem object, or false on parse failure/error.
      */
-    public function parse($input)
+    public function parse($input, $flags = [])
     {
         $json = json_decode($input, true);
 

@@ -4,7 +4,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 
 class ParserTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Gravitask\Task\Parser\Parser */
+    /** @var Gravitask\Task\Parser\TodoTxtParser */
     private $parser;
 
     function setUp() {

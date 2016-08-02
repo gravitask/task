@@ -194,4 +194,28 @@ class ParserTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($status, $result->getStatus());
         $this->assertEquals($taskDesc, $result->getTask());
     }
+
+    function testParseKeyValue() {
+        $input = "Basic Task pri:B due:2016-01-14";
+        $priority = "B";
+        $extrasDueDate = "2016-01-14";
+
+        $result = $this->parser->parse($input);
+
+        $this->assertCount(1, $result->getMetadata());
+        $this->assertEquals($priority, $result->getPriority());
+        $this->assertEquals($extrasDueDate, $result->getMetadata()['DUE']);
+    }
+
+    function testParseKeyValueOverrulePriority() {
+        $input = "(A) Two priorities pri:B due:2016-01-14";
+        $priority = "B";
+        $extrasDueDate = "2016-01-14";
+
+        $result = $this->parser->parse($input);
+
+        $this->assertCount(1, $result->getMetadata());
+        $this->assertEquals($priority, $result->getPriority());
+        $this->assertEquals($extrasDueDate, $result->getMetadata()['DUE']);
+    }
 }

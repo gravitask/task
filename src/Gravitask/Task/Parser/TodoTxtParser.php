@@ -7,6 +7,10 @@ use Gravitask\Task\TaskItem;
 
 class TodoTxtParser implements ParserInterface
 {
+    /** @var array Array containing parsed metadata from the input string. */
+    private $parsedMetadata = [];
+
+
     /**
      * Parse the provided input and translate into a TaskItem object.
      *
@@ -27,6 +31,9 @@ class TodoTxtParser implements ParserInterface
         $newTaskItem->setContexts($this->parseContexts($splitInput));
         $newTaskItem->setProjects($this->parseProjects($splitInput));
         $newTaskItem->setTask($this->parseTaskDescription($splitInput));
+
+        $this->parseMetadata($splitInput);
+        $newTaskItem = $this->applyMetadata($newTaskItem);
 
         return $newTaskItem;
     }
@@ -128,5 +135,64 @@ class TodoTxtParser implements ParserInterface
      */
     private function parseTaskDescription($splitInput) {
        return implode(" ", $splitInput);
+    }
+
+    /**
+     * Search for metadata (key:value) elements in the input pieces and
+     * attempt to parse them.
+     *
+     * @param array $splitInput An exploded array (delimited by space) of the input data.
+     */
+    private function parseMetadata($splitInput) {
+        foreach($splitInput as $inputElement) {
+            /*
+             * Check the input element follows the rules:
+             * - Must only have a single colon
+             * - Must not contain whitespace or colons in the key or value section
+             */
+            if(preg_match('/([^\s|\:]+)\:([^\s|\:]+)/', $inputElement) === 1) {
+                $splitElement = explode(":", $inputElement);
+                $this->setParsedMetadata($splitElement[0], $splitElement[1]);
+            }
+        }
+    }
+
+    /**
+     * Set a key:value element to apply to the TaskItem after parsing.
+     *
+     * This allows support for key:value items in the todo.txt format,
+     * e.g. "pri:A" to set the priority, or "DUE:2016-12-31" to set a
+     * due date.
+     *
+     * @param string $key
+     * @param string $value
+     */
+    private function setParsedMetadata($key, $value) {
+        $this->parsedMetadata[$key] = $value;
+    }
+
+    /**
+     * Apply the task metadata to the TaskItem.
+     *
+     * @param TaskItem $taskItem
+     * @return TaskItem
+     */
+    private function applyMetadata($taskItem) {
+        foreach($this->parsedMetadata as $key => $value) {
+            switch(strtoupper($key)) {
+                case "PRI":
+                    if(preg_match('/^[A-Z]$/', $value) === 1) {
+                        $taskItem->setPriority($value);
+                    }
+                break;
+                case "DUE":
+                    if(preg_match('/^[0-9]{4,}\-[0-9]{2,}\-[0-9]{2,}$/', $value) === 1) {
+                        $taskItem->addMetadata("DUE", $value);
+                    }
+                break;
+            }
+        }
+
+        return $taskItem;
     }
 }

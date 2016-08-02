@@ -225,6 +225,17 @@ class ParserTest extends PHPUnit_Framework_TestCase
         $input = "(A) Two priorities pri:B due:2016-01-14";
         $priority = "A";
 
+        $this->parser->setFlags([TodoTxtParser::FLAG_IGNORE_METADATA]);
+        $result = $this->parser->parse($input);
+
+        $this->assertCount(0, $result->getMetadata());
+        $this->assertEquals($priority, $result->getPriority());
+    }
+
+    function testParseMetadataWithIgnoreFlagArgument() {
+        $input = "(A) Two priorities Part 2 pri:B due:2016-01-14";
+        $priority = "A";
+
         $result = $this->parser->parse($input, [TodoTxtParser::FLAG_IGNORE_METADATA]);
 
         $this->assertCount(0, $result->getMetadata());

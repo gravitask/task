@@ -5,7 +5,7 @@ namespace Gravitask\Task\Parser;
 use Gravitask\Task\TaskItem;
 use Gravitask\Task\Formatter\JsonFormatter;
 
-class JsonParser implements ParserInterface
+class JsonParser extends BaseParser implements ParserInterface
 {
     /**
      * Parse the provided JSON input string into a TaskItem object.

@@ -2,13 +2,15 @@
 
 require __DIR__ . '/../../vendor/autoload.php';
 
+use \Gravitask\Task\Parser\TodoTxtParser;
+
 class ParserTest extends PHPUnit_Framework_TestCase
 {
     /** @var Gravitask\Task\Parser\TodoTxtParser */
     private $parser;
 
     function setUp() {
-        $this->parser = new \Gravitask\Task\Parser\TodoTxtParser();
+        $this->parser = new TodoTxtParser();
     }
 
     function testBasicTask() {
@@ -217,5 +219,15 @@ class ParserTest extends PHPUnit_Framework_TestCase
         $this->assertCount(1, $result->getMetadata());
         $this->assertEquals($priority, $result->getPriority());
         $this->assertEquals($extrasDueDate, $result->getMetadata()['DUE']);
+    }
+
+    function testParseMetadataWithIgnoreFlag() {
+        $input = "(A) Two priorities pri:B due:2016-01-14";
+        $priority = "A";
+
+        $result = $this->parser->parse($input, [TodoTxtParser::FLAG_IGNORE_METADATA]);
+
+        $this->assertCount(0, $result->getMetadata());
+        $this->assertEquals($priority, $result->getPriority());
     }
 }

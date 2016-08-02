@@ -7,6 +7,12 @@ use Gravitask\Task\TaskItem;
 
 class TodoTxtParser implements ParserInterface
 {
+    /** Tell the parser to ignore parsing "key:value" metadata
+     * such as "PRI:A" to set the priority. */
+    const FLAG_IGNORE_METADATA = 1;
+
+
+
     /** @var array Array containing parsed metadata from the input string. */
     private $parsedMetadata = [];
 
@@ -33,8 +39,10 @@ class TodoTxtParser implements ParserInterface
         $newTaskItem->setProjects($this->parseProjects($splitInput));
         $newTaskItem->setTask($this->parseTaskDescription($splitInput));
 
-        $this->parseMetadata($splitInput);
-        $newTaskItem = $this->applyMetadata($newTaskItem);
+        if(in_array(self::FLAG_IGNORE_METADATA, $flags) === false) {
+            $this->parseMetadata($splitInput);
+            $newTaskItem = $this->applyMetadata($newTaskItem);
+        }
 
         return $newTaskItem;
     }

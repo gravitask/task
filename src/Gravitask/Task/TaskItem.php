@@ -34,6 +34,9 @@ class TaskItem
     /** @var int An ENUM value representing the task's status (e.g. completed) */
     private $status;
 
+    /** @var array An array of the item's metadata (e.g. due date). */
+    private $metadata = [];
+
 
     /**
      * Set the task name/description.
@@ -199,4 +202,35 @@ class TaskItem
         return $this->status;
     }
 
+    /**
+     * Set a list of metadata for the task.
+     *
+     * @param array $metadata
+     */
+    public function setMetadata(array $metadata) {
+        $this->metadata = $metadata;
+    }
+
+    /**
+     * Add a single metadata item to the list of task metadata.
+     *
+     * @param string $key The metadata key name
+     * @param string $value The metadata value
+     */
+    public function addMetadata($key, $value) {
+        $metadataList = $this->getMetadata();
+        if(isset($metadataList[$key]) === false) {
+            $metadataList[$key] = $value;
+            $this->setMetadata($metadataList);
+        }
+    }
+
+    /**
+     * Get a list of metadata assigned to this task.
+     *
+     * @return array
+     */
+    public function getMetadata() {
+        return $this->metadata;
+    }
 }

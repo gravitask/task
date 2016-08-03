@@ -4,7 +4,7 @@ namespace Gravitask\Task\Formatter;
 
 use Gravitask\Task\TaskItem;
 
-class JsonFormatter implements FormatterInterface
+class JsonFormatter extends BaseFormatter implements FormatterInterface
 {
     /** JSON key to identify whether the task has been completed. */
     const KEY_COMPLETED = "completed";
@@ -33,10 +33,14 @@ class JsonFormatter implements FormatterInterface
      * Format the TaskItem into a JSON encoded string.
      *
      * @param TaskItem $taskItem
+     * @param array|null $flags
      * @return string
      */
-    public function format(TaskItem $taskItem)
-    {
+    public function format(TaskItem $taskItem, $flags = null) {
+        if($flags !== null) {
+            $this->setFlags($flags);
+        }
+
         $output = [];
 
         if(

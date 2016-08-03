@@ -10,8 +10,8 @@ interface ParserInterface
      * usable TaskItem object.
      *
      * @param $input
-     * @param array $flags
+     * @param array|null $flags
      * @return \Gravitask\Task\TaskItem
      */
-    public function parse($input, $flags = []);
+    public function parse($input, $flags = null);
 }

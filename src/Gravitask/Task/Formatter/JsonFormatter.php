@@ -33,7 +33,7 @@ class JsonFormatter extends BaseFormatter implements FormatterInterface
      * Format the TaskItem into a JSON encoded string.
      *
      * @param TaskItem $taskItem
-     * @param array|null $flags
+     * @param array|null $flags A list of formatter flags or null to use pre-set flags.
      * @return string
      */
     public function format(TaskItem $taskItem, $flags = null) {

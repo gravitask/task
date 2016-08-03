@@ -5,8 +5,14 @@ namespace Gravitask\Task\Parser;
 
 use Gravitask\Task\TaskItem;
 
-class TodoTxtParser implements ParserInterface
+class TodoTxtParser extends BaseParser implements ParserInterface
 {
+    /** Tell the parser to ignore parsing "key:value" metadata
+     * such as "PRI:A" to set the priority. */
+    const FLAG_IGNORE_METADATA = 1;
+
+
+
     /** @var array Array containing parsed metadata from the input string. */
     private $parsedMetadata = [];
 
@@ -15,9 +21,14 @@ class TodoTxtParser implements ParserInterface
      * Parse the provided input and translate into a TaskItem object.
      *
      * @param string $input A raw Todo.txt formatted string.
+     * @param array $flags A list of parse flags.
      * @return \Gravitask\Task\TaskItem
      */
-    public function parse($input) {
+    public function parse($input, $flags = []) {
+        if(!empty($flags)) {
+            $this->setFlags($flags);
+        }
+
         $newTaskItem = new TaskItem();
         $splitInput = explode(" ", $input);
 
@@ -32,8 +43,10 @@ class TodoTxtParser implements ParserInterface
         $newTaskItem->setProjects($this->parseProjects($splitInput));
         $newTaskItem->setTask($this->parseTaskDescription($splitInput));
 
-        $this->parseMetadata($splitInput);
-        $newTaskItem = $this->applyMetadata($newTaskItem);
+        if($this->hasFlag(self::FLAG_IGNORE_METADATA) === false) {
+            $this->parseMetadata($splitInput);
+            $newTaskItem = $this->applyMetadata($newTaskItem);
+        }
 
         return $newTaskItem;
     }

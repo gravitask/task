@@ -4,16 +4,20 @@ namespace Gravitask\Task\Formatter;
 
 use Gravitask\Task\TaskItem;
 
-class TodoTxtFormatter implements FormatterInterface
+class TodoTxtFormatter extends BaseFormatter implements FormatterInterface
 {
     /**
      * Format the TaskItem into a readable todo.txt format.
      *
      * @param TaskItem $taskItem
+     * @param array|null $flags
      * @return string
      */
-    public function format(TaskItem $taskItem)
-    {
+    public function format(TaskItem $taskItem, $flags = null) {
+        if($flags !== null) {
+            $this->setFlags($flags);
+        }
+
         $outputPieces = [];
 
         if($this->itemIsCompleted($taskItem)) {

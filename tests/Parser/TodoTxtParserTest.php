@@ -4,7 +4,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 
 use \Gravitask\Task\Parser\TodoTxtParser;
 
-class ParserTest extends PHPUnit_Framework_TestCase
+class TodoTxtParserTest extends PHPUnit_Framework_TestCase
 {
     /** @var Gravitask\Task\Parser\TodoTxtParser */
     private $parser;

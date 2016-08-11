@@ -49,4 +49,15 @@ class JsonParserTest extends PHPUnit_Framework_TestCase
         $result = $this->parser->parse($input);
         $this->assertEquals(null, $result->getTask());
     }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    function testTaskWithInvalidJson() {
+        $input = 'this is not JSON!';
+
+        $result = $this->parser->parse($input);
+
+        $this->assertFalse(null, $result->getTask());
+    }
 }

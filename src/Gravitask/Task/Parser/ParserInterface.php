@@ -11,6 +11,7 @@ interface ParserInterface
      *
      * @param $input
      * @param array|null $flags
+     * @throws \InvalidArgumentException if the provided input cannot be parsed.
      * @return \Gravitask\Task\TaskItem
      */
     public function parse($input, $flags = null);

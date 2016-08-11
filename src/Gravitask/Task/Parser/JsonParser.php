@@ -12,6 +12,7 @@ class JsonParser extends BaseParser implements ParserInterface
      *
      * @param $input
      * @param array|null $flags A list of parse flags or null to use pre-set flags.
+     * @throws \InvalidArgumentException if the provided JSON input cannot be parsed.
      * @return TaskItem|bool A new TaskItem object, or false on parse failure/error.
      */
     public function parse($input, $flags = null) {
@@ -22,7 +23,7 @@ class JsonParser extends BaseParser implements ParserInterface
         $json = json_decode($input, true);
 
         if($json === null) {
-            return false;
+            throw new \InvalidArgumentException("The provided JSON data is invalid.");
         }
 
         $taskItem = new TaskItem();

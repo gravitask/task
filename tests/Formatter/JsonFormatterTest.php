@@ -31,11 +31,32 @@ class JsonFormatterTest extends PHPUnit_Framework_TestCase
         $task->setCreationDate("2016-11-11");
         $task->setTask("Finished Task");
         $task->setContexts(["email"]);
+        $task->setProjects(["exampleProject"]);
 
         $jsonOutput = $this->formatter->format($task);
 
         $expected = '{"completed":true,"dateCompleted":"2016-11-12","priority":"B",' .
-            '"dateCreated":"2016-11-11","task":"Finished Task","contexts":["email"]}';
+            '"dateCreated":"2016-11-11","task":"Finished Task","contexts":["email"],' .
+            '"projects":["exampleProject"]}';
+
+        $this->assertEquals($expected, $jsonOutput);
+    }
+
+    public function testFormatWithFlag() {
+        $task = new Gravitask\Task\TaskItem();
+        $task->setStatus(Gravitask\Task\TaskItem::STATUS_COMPLETED);
+        $task->setCompletionDate("2016-11-12");
+        $task->setPriority("B");
+        $task->setCreationDate("2016-11-11");
+        $task->setTask("Finished Task");
+        $task->setContexts(["email"]);
+        $task->setProjects(["exampleProject"]);
+
+        $jsonOutput = $this->formatter->format($task, [0]);
+
+        $expected = '{"completed":true,"dateCompleted":"2016-11-12","priority":"B",' .
+            '"dateCreated":"2016-11-11","task":"Finished Task","contexts":["email"],' .
+            '"projects":["exampleProject"]}';
 
         $this->assertEquals($expected, $jsonOutput);
     }

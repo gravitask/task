@@ -106,4 +106,16 @@ class TodoTxtFormatterTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($expectedResult, $result);
     }
+
+    public function testFormatWithFlag() {
+        $formatter = new Gravitask\Task\Formatter\TodoTxtFormatter();
+        $task = new \Gravitask\Task\TaskItem();
+        $task->setTask("A basic task");
+
+        $expectedResult = "A basic task";
+
+        $result = $formatter->format($task, array(0));
+
+        $this->assertEquals($expectedResult, $result);
+    }
 }

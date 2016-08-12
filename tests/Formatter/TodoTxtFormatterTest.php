@@ -20,7 +20,7 @@ class TodoTxtFormatterTest extends PHPUnit_Framework_TestCase
         $formatter = new Gravitask\Task\Formatter\TodoTxtFormatter();
         $task = new \Gravitask\Task\TaskItem();
         $task->setTask("Basic Task");
-        $task->setCreationDate("2016-01-02");
+        $task->setCreationDate(\DateTime::createFromFormat("Y-m-d", "2016-01-02"));
         $task->setContexts(["email", "computer"]);
         $task->setProjects(["secretProject"]);
         $task->setPriority("D");
@@ -37,7 +37,7 @@ class TodoTxtFormatterTest extends PHPUnit_Framework_TestCase
         $task = new \Gravitask\Task\TaskItem();
         $task->setStatus(Gravitask\Task\TaskItem::STATUS_COMPLETED);
         $task->setTask("Some Task");
-        $task->setCreationDate("2016-02-04");
+        $task->setCreationDate(\DateTime::createFromFormat("Y-m-d", "2016-02-04"));
         $task->setContexts(["email"]);
         $task->setPriority("A");
 
@@ -52,8 +52,8 @@ class TodoTxtFormatterTest extends PHPUnit_Framework_TestCase
         $formatter = new Gravitask\Task\Formatter\TodoTxtFormatter();
         $task = new \Gravitask\Task\TaskItem();
         $task->setTask("Some Task");
-        $task->setCreationDate("2016-02-04");
-        $task->setCompletionDate("2016-02-04");
+        $task->setCreationDate(\DateTime::createFromFormat("Y-m-d", "2016-02-04"));
+        $task->setCompletionDate(\DateTime::createFromFormat("Y-m-d", "2016-02-05"));
         $task->setContexts(["email"]);
         $task->setPriority("A");
 
@@ -69,8 +69,8 @@ class TodoTxtFormatterTest extends PHPUnit_Framework_TestCase
         $task = new \Gravitask\Task\TaskItem();
         $task->setStatus(Gravitask\Task\TaskItem::STATUS_COMPLETED);
         $task->setTask("Finished Task");
-        $task->setCreationDate("2016-11-11");
-        $task->setCompletionDate("2016-11-12");
+        $task->setCreationDate(\DateTime::createFromFormat("Y-m-d", "2016-11-11"));
+        $task->setCompletionDate(\DateTime::createFromFormat("Y-m-d", "2016-11-12"));
         $task->setContexts(["email"]);
         $task->setPriority("B");
 

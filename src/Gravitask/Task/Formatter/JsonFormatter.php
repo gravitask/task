@@ -48,7 +48,7 @@ class JsonFormatter extends BaseFormatter implements FormatterInterface
             $taskItem->getCompletionDate() !== null
         ) {
             $output[self::KEY_COMPLETED] = true;
-            $output[self::KEY_COMPLETION_DATE] = $taskItem->getCompletionDate();
+            $output[self::KEY_COMPLETION_DATE] = $taskItem->getCompletionDate()->format(\DateTime::ATOM);
         }
 
         if($taskItem->getPriority() !== null) {
@@ -56,7 +56,7 @@ class JsonFormatter extends BaseFormatter implements FormatterInterface
         }
 
         if($taskItem->getCreationDate() !== null) {
-            $output[self::KEY_CREATION_DATE] = $taskItem->getCreationDate();
+            $output[self::KEY_CREATION_DATE] = $taskItem->getCreationDate()->format(\DateTime::ATOM);
         }
 
         if($taskItem->getTask() !== null) {

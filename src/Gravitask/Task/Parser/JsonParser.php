@@ -65,8 +65,9 @@ class JsonParser extends BaseParser implements ParserInterface
     private function parseCompletionDate($json) {
         if(!isset($json[JsonFormatter::KEY_COMPLETION_DATE])) { return null; }
 
-        if(preg_match('/^[0-9]{4,}\-[0-9]{2,}\-[0-9]{2,}$/', $json[JsonFormatter::KEY_COMPLETION_DATE])) {
-            return $json[JsonFormatter::KEY_COMPLETION_DATE];
+        $completionDate = \DateTime::createFromFormat(\DateTime::ATOM, $json[JsonFormatter::KEY_COMPLETION_DATE]);
+        if($completionDate !== false) {
+            return $completionDate;
         }
 
         return null;
@@ -97,8 +98,9 @@ class JsonParser extends BaseParser implements ParserInterface
     private function parseCreationDate($json) {
         if(!isset($json[JsonFormatter::KEY_CREATION_DATE])) { return null; }
 
-        if(preg_match('/^[0-9]{4,}\-[0-9]{2,}\-[0-9]{2,}$/', $json[JsonFormatter::KEY_CREATION_DATE])) {
-            return $json[JsonFormatter::KEY_CREATION_DATE];
+        $creationDate = \DateTime::createFromFormat(\DateTime::ATOM, $json[JsonFormatter::KEY_CREATION_DATE]);
+        if($creationDate !== false) {
+            return $creationDate;
         }
 
         return null;

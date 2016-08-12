@@ -22,10 +22,10 @@ class TaskItem
     /** @var array An array of the item's projects. */
     private $projects = [];
 
-    /** @var string The creation date of the task (YYYY-MM-DD). */
+    /** @var string The creation datetime of the task in ISO8601 format. */
     private $creationDate;
 
-    /** @var string The completion date of the task (YYYY-MM-DD). */
+    /** @var string The completion datetime of the task in ISO8601 format. */
     private $completionDate;
 
     /** @var string The priority of the task as a single letter (A-Z). */
@@ -123,38 +123,52 @@ class TaskItem
     /**
      * Set the creation date for the task.
      *
-     * @param string $date The creation date presented in the format: "YYYY-MM-DD".
+     * @param \DateTime|null $date
      */
     public function setCreationDate($date) {
-        $this->creationDate = $date;
+        if($date === null) {
+            $this->creationDate = null;
+            return;
+        }
+        $this->creationDate = $date->format(\DateTime::ATOM);
     }
 
     /**
-     * Get the creation date for the task.
+     * Get the creation date for the task as a DateTime object.
      *
-     * @return string
+     * @return \DateTime|null
      */
     public function getCreationDate() {
-        return $this->creationDate;
+        if($this->creationDate !== null) {
+            return \DateTime::createFromFormat(\DateTime::ATOM, $this->creationDate);
+        }
+        return null;
     }
 
 
     /**
      * Set the date that this task was completed.
      *
-     * @param string $date The completion date presented in the format: "YYYY-MM-DD".
+     * @param \DateTime $date
      */
     public function setCompletionDate($date) {
-        $this->completionDate = $date;
+        if($date === null) {
+            $this->completionDate = null;
+            return;
+        }
+        $this->completionDate = $date->format(\DateTime::ATOM);
     }
 
     /**
-     * Get the date of when the task was completed.
+     * Get the date of when the task was completed as a DateTime object.
      *
-     * @return string
+     * @return \DateTime|null
      */
     public function getCompletionDate() {
-        return $this->completionDate;
+        if($this->completionDate !== null) {
+            return \DateTime::createFromFormat(\DateTime::ATOM, $this->completionDate);
+        }
+        return null;
     }
 
 

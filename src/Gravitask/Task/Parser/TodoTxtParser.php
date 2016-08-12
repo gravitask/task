@@ -64,7 +64,8 @@ class TodoTxtParser extends BaseParser implements ParserInterface
 
         if(preg_match('/^[0-9]{4,}\-[0-9]{2,}\-[0-9]{2,}$/', $splitInput[1]) === 1) {
             $returnData['status'] = TaskItem::STATUS_COMPLETED;
-            $returnData['date'] = $splitInput[1];
+            $completionDate = \DateTime::createFromFormat('Y-m-d', $splitInput[1]);
+            $returnData['date'] = $completionDate;
             $splitInput = array_slice($splitInput, 2);
             return $returnData;
         }
@@ -132,8 +133,10 @@ class TodoTxtParser extends BaseParser implements ParserInterface
      */
     private function parseCreationDate(&$splitInput) {
         if(preg_match('/^[0-9]{4,}\-[0-9]{2,}\-[0-9]{2,}$/', $splitInput[0]) === 1) {
-            $creationDate = $splitInput[0];
+            $creationDateString = $splitInput[0];
             $splitInput = array_slice($splitInput, 1);
+            $creationDate = \DateTime::createFromFormat('Y-m-d', $creationDateString);
+            $creationDate->setTime(0, 0, 0);
             return $creationDate;
         }
 

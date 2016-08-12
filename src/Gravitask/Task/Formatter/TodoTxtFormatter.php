@@ -22,7 +22,7 @@ class TodoTxtFormatter extends BaseFormatter implements FormatterInterface
 
         if($this->itemIsCompleted($taskItem)) {
             $outputPieces[] = "x";
-            $outputPieces[] = $taskItem->getCompletionDate();
+            $outputPieces[] = $taskItem->getCompletionDate()->format("Y-m-d");
         }
 
         if($taskItem->getPriority() !== null) {
@@ -30,7 +30,7 @@ class TodoTxtFormatter extends BaseFormatter implements FormatterInterface
         }
 
         if($taskItem->getCreationDate() !== null) {
-            $outputPieces[] = $taskItem->getCreationDate();
+            $outputPieces[] = $taskItem->getCreationDate()->format("Y-m-d");
         }
 
         if($taskItem->getTask() !== null) {

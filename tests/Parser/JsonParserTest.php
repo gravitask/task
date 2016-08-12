@@ -32,9 +32,9 @@ class JsonParserTest extends PHPUnit_Framework_TestCase
     function testTaskAllKeys() {
         $input = '{
         "completed": true,
-        "dateCompleted": "2010-10-18",
+        "dateCompleted": "2010-10-18T00:00:00+00:00",
         "priority": "D",
-        "dateCreated": "2010-10-12",
+        "dateCreated": "2010-10-12T00:00:00+00:00",
         "task": "Dance",
         "contexts": ["phone"],
         "projects": ["danceContest"]
@@ -42,9 +42,9 @@ class JsonParserTest extends PHPUnit_Framework_TestCase
 
         $result = $this->parser->parse($input);
         $this->assertEquals(\Gravitask\Task\TaskItem::STATUS_COMPLETED, $result->getStatus());
-        $this->assertEquals("2010-10-12", $result->getCreationDate());
+        $this->assertEquals("2010-10-12", $result->getCreationDate()->format("Y-m-d"));
         $this->assertEquals("D", $result->getPriority());
-        $this->assertEquals("2010-10-18", $result->getCompletionDate());
+        $this->assertEquals("2010-10-18", $result->getCompletionDate()->format("Y-m-d"));
         $this->assertEquals("Dance", $result->getTask());
         $this->assertEquals(["phone"], $result->getContexts());
         $this->assertEquals(["danceContest"], $result->getProjects());

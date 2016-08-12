@@ -84,7 +84,7 @@ class TodoTxtParserTest extends PHPUnit_Framework_TestCase
 
         $result = $this->parser->parse($input);
 
-        $this->assertEquals("2016-01-01", $result->getCreationDate());
+        $this->assertEquals("2016-01-01", $result->getCreationDate()->format('Y-m-d'));
     }
 
     function testStatus() {
@@ -92,7 +92,7 @@ class TodoTxtParserTest extends PHPUnit_Framework_TestCase
 
         $result = $this->parser->parse($input);
 
-        $this->assertEquals("2016-01-02", $result->getCompletionDate());
+        $this->assertEquals("2016-01-02", $result->getCompletionDate()->format("Y-m-d"));
         $this->assertEquals(\Gravitask\Task\TaskItem::STATUS_COMPLETED, $result->getStatus());
     }
     function testStatusWithoutCompletionDate() {
@@ -109,7 +109,7 @@ class TodoTxtParserTest extends PHPUnit_Framework_TestCase
 
         $result = $this->parser->parse($input);
 
-        $this->assertEquals("2011-11-12", $result->getCompletionDate());
+        $this->assertEquals("2011-11-12", $result->getCompletionDate()->format("Y-m-d"));
         $this->assertEquals(\Gravitask\Task\TaskItem::STATUS_COMPLETED, $result->getStatus());
     }
 
@@ -136,7 +136,7 @@ class TodoTxtParserTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($contexts, $result->getContexts());
         $this->assertEquals($projects, $result->getProjects());
         $this->assertEquals("B", $result->getPriority());
-        $this->assertEquals($creationDate, $result->getCreationDate());
+        $this->assertEquals($creationDate, $result->getCreationDate()->format('Y-m-d'));
         $this->assertEquals(null, $result->getCompletionDate());
         $this->assertEquals($taskDesc, $result->getTask());
     }
@@ -155,8 +155,8 @@ class TodoTxtParserTest extends PHPUnit_Framework_TestCase
         $this->assertCount(2, $result->getContexts());
         $this->assertEquals($contexts, $result->getContexts());
         $this->assertEquals($projects, $result->getProjects());
-        $this->assertEquals($creationDate, $result->getCreationDate());
-        $this->assertEquals($completionDate, $result->getCompletionDate());
+        $this->assertEquals($creationDate, $result->getCreationDate()->format("Y-m-d"));
+        $this->assertEquals($completionDate, $result->getCompletionDate()->format("Y-m-d"));
         $this->assertEquals($status, $result->getStatus());
         $this->assertEquals($taskDesc, $result->getTask());
     }
@@ -174,7 +174,7 @@ class TodoTxtParserTest extends PHPUnit_Framework_TestCase
         $this->assertCount(2, $result->getContexts());
         $this->assertEquals($contexts, $result->getContexts());
         $this->assertEquals($projects, $result->getProjects());
-        $this->assertEquals($completionDate, $result->getCompletionDate());
+        $this->assertEquals($completionDate, $result->getCompletionDate()->format("Y-m-d"));
         $this->assertEquals($status, $result->getStatus());
         $this->assertEquals($taskDesc, $result->getTask());
     }

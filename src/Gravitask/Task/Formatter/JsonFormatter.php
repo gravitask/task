@@ -43,11 +43,13 @@ class JsonFormatter extends BaseFormatter implements FormatterInterface
 
         $output = [];
 
-        if(
-            $taskItem->getStatus() === TaskItem::STATUS_COMPLETED &&
-            $taskItem->getCompletionDate() !== null
-        ) {
+        if($taskItem->getStatus() === TaskItem::STATUS_COMPLETED) {
             $output[self::KEY_COMPLETED] = true;
+        } else {
+            $output[self::KEY_COMPLETED] = false;
+        }
+
+        if($taskItem->getCompletionDate() !== null) {
             $output[self::KEY_COMPLETION_DATE] = $taskItem->getCompletionDate()->format(\DateTime::ATOM);
         }
 

@@ -18,7 +18,7 @@ class JsonFormatterTest extends PHPUnit_Framework_TestCase
 
         $jsonOutput = $this->formatter->format($task);
 
-        $expected = '{"priority":"A","task":"Test JSON"}';
+        $expected = '{"completed":false,"priority":"A","task":"Test JSON"}';
 
         $this->assertEquals($expected, $jsonOutput);
     }

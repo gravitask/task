@@ -60,17 +60,23 @@ class TodoTxtParser extends BaseParser implements ParserInterface
      * @return array|bool Array containing `date`, `status` values or false on failure.
      */
     private function parseCompletionStatus(&$splitInput) {
-        if($splitInput[0] !== 'x') { return false; }
+        $returnData = [];
+        $returnData['date'] = null;
+
+        if($splitInput[0] === 'x') {
+            $returnData['status'] = TaskItem::STATUS_COMPLETED;
+        } else {
+            return false;
+        }
 
         if(preg_match('/^[0-9]{4,}\-[0-9]{2,}\-[0-9]{2,}$/', $splitInput[1]) === 1) {
-            $returnData['status'] = TaskItem::STATUS_COMPLETED;
             $completionDate = \DateTime::createFromFormat('Y-m-d', $splitInput[1]);
             $returnData['date'] = $completionDate;
             $splitInput = array_slice($splitInput, 2);
             return $returnData;
         }
 
-        return false;
+        return $returnData;
     }
 
     /**

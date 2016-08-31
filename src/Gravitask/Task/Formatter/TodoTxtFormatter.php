@@ -20,9 +20,12 @@ class TodoTxtFormatter extends BaseFormatter implements FormatterInterface
 
         $outputPieces = [];
 
-        if($this->itemIsCompleted($taskItem)) {
+        if($taskItem->getStatus() === TaskItem::STATUS_COMPLETED) {
             $outputPieces[] = "x";
-            $outputPieces[] = $taskItem->getCompletionDate()->format("Y-m-d");
+
+            if($taskItem->getCompletionDate() !== null) {
+                $outputPieces[] = $taskItem->getCompletionDate()->format("Y-m-d");
+            }
         }
 
         if($taskItem->getPriority() !== null) {
@@ -51,22 +54,5 @@ class TodoTxtFormatter extends BaseFormatter implements FormatterInterface
         }
 
         return implode(" ", $outputPieces);
-    }
-
-    /**
-     * Convenience method to determine whether the TaskItem is completed.
-     *
-     * @param TaskItem $taskItem
-     * @return bool
-     */
-    private function itemIsCompleted(TaskItem $taskItem) {
-        if(
-            $taskItem->getStatus() === TaskItem::STATUS_COMPLETED &&
-            $taskItem->getCompletionDate() !== null
-        ) {
-            return true;
-        }
-
-        return false;
     }
 }

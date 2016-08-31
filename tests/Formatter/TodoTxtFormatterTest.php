@@ -41,7 +41,7 @@ class TodoTxtFormatterTest extends PHPUnit_Framework_TestCase
         $task->setContexts(["email"]);
         $task->setPriority("A");
 
-        $expectedResult = "(A) 2016-02-04 Some Task @email";
+        $expectedResult = "x (A) 2016-02-04 Some Task @email";
 
         $result = $formatter->format($task);
 

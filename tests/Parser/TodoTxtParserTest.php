@@ -96,12 +96,12 @@ class TodoTxtParserTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(\Gravitask\Task\TaskItem::STATUS_COMPLETED, $result->getStatus());
     }
     function testStatusWithoutCompletionDate() {
-        $input = "x Non-completed task";
+        $input = "x Undated, completed task";
 
         $result = $this->parser->parse($input);
 
         $this->assertEquals(null, $result->getCompletionDate());
-        $this->assertEquals(\Gravitask\Task\TaskItem::STATUS_ACTIVE, $result->getStatus());
+        $this->assertEquals(\Gravitask\Task\TaskItem::STATUS_COMPLETED, $result->getStatus());
     }
 
     function testStatusBasic() {
@@ -184,7 +184,7 @@ class TodoTxtParserTest extends PHPUnit_Framework_TestCase
         $taskDesc = "x Test task @email @home +secretProject";
         $contexts = array("email", "home");
         $projects = array("secretProject");
-        $status = \Gravitask\Task\TaskItem::STATUS_ACTIVE;
+        $status = \Gravitask\Task\TaskItem::STATUS_COMPLETED;
 
         $result = $this->parser->parse($input);
 

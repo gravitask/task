@@ -60,7 +60,7 @@ class JsonParser extends BaseParser implements ParserInterface
      * Parse the date that the task was completed (if available).
      *
      * @param array $json Array representation of the input JSON string.
-     * @return string|null YYYY-MM-DD formatted date, or null.
+     * @return \DateTime|null YYYY-MM-DD formatted date, or null.
      */
     private function parseCompletionDate($json) {
         if(!isset($json[JsonFormatter::KEY_COMPLETION_DATE])) { return null; }
@@ -93,7 +93,7 @@ class JsonParser extends BaseParser implements ParserInterface
      * Parse the optional date value of when the task was created.
      *
      * @param array $json Array representation of the input JSON string.
-     * @return string|null YYYY-MM-DD formatted date, or null.
+     * @return \DateTime|null YYYY-MM-DD formatted date, or null.
      */
     private function parseCreationDate($json) {
         if(!isset($json[JsonFormatter::KEY_CREATION_DATE])) { return null; }

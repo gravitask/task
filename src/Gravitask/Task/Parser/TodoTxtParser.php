@@ -135,7 +135,7 @@ class TodoTxtParser extends BaseParser implements ParserInterface
      * Attempt to parse the **optional** creation date in the input.
      *
      * @param array &$splitInput An exploded array (delimited by space) of the input data.
-     * @return string|null
+     * @return \DateTime|null
      */
     private function parseCreationDate(&$splitInput) {
         if(preg_match('/^[0-9]{4,}\-[0-9]{2,}\-[0-9]{2,}$/', $splitInput[0]) === 1) {

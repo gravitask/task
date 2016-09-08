@@ -1,4 +1,6 @@
 # gravitask/task
+[![Build Status](https://travis-ci.org/gravitask/task.svg?branch=master)](https://travis-ci.org/gravitask/task)
+
 A *serious*ly powerful library for working with TODO list items and tasks.
 
 ## Features

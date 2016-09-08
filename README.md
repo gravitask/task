@@ -18,6 +18,18 @@ $task->getTask(); // Result: "Write the README file"
 
 ---
 
+## Installation
+The recommended way to install this library is via [Composer](https://getcomposer.org/):
+```
+composer require gravitask/task
+```
+
+### Requirements
+* PHP \>= 5.4
+
+
+---
+
 ## TaskItem
 This class is the "task object" and holds all of the information about the task,
 such as its creation date, priority, description, etc.

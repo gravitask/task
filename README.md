@@ -128,14 +128,15 @@ $task->getProjects();
 
 ---
 
-#### setCreationDate($date)
+#### setCreationDate(\DateTime $date)
 Set the task's *optional* creation date.
 
-The date **MUST** be formatted as `YYYY-MM-DD`.
+The `$date` argument is a `DateTime` object set to the required date and time.
 
 ##### Example
 ```php
-$task->setCreationDate('2016-06-21');
+$creationDate = new \DateTime::createFromFormat("Y-m-d", "2016-08-16");
+$task->setCreationDate($creaionDate);
 ```
 
 ---
@@ -146,21 +147,20 @@ Retrieve the *optional* creation date value for the task.
 ##### Example
 ```php
 $task->getCreationDate();
-// "2016-06-21"
+// \DateTime object
 ```
 
 ---
 
-#### setCompletionDate($date)
+#### setCompletionDate(\DateTime $date)
 Set the date of when the task was completed.
 
-**Requirements**:
-* The date **MUST** be formatted as `YYYY-MM-DD`.
-* The status **MUST** also be set to `STATUS_COMPLETED` via the `setStatus` method.
+The `$date` argument is a `DateTime` object set to the required date and time.
 
 ```php
 $task->setStatus(TaskItem::STATUS_COMPLETED);
-$task->setCompletionDate('2016-06-22');
+$completionDate = new \DateTime::createFromFormat("Y-m-d", "2016-08-20");
+$task->setCompletionDate($completionDate);
 ```
 
 ---
@@ -171,10 +171,11 @@ Retrieve the date that the task was completed.
 ##### Example
 ```php
 $task->setStatus(TaskItem::STATUS_COMPLETED);
-$task->setCompletionDate('2016-06-22');
+$completionDate = new \DateTime::createFromFormat("Y-m-d", "2016-08-20");
+$task->setCompletionDate($completionDate);
 
 $task->getCompletionDate()
-// "2016-06-22"
+// \DateTime object
 ```
 
 ---
